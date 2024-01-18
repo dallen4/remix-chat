@@ -1,22 +1,42 @@
-# Welcome to Remix!
+# Welcome to Remix Chat!
 
-- [Remix Docs](https://remix.run/docs)
+## Stack Details
+
+This application is deployed on on the edge via [Cloudflare Pages](https://developers.cloudflare.com/pages/) built with:
+
+- [Remix](https://remix.run/docs)
+- [chatscope](https://chatscope.io/)
+- [dicebear](https://www.dicebear.com/)
 
 ## Development
 
-You will be utilizing Wrangler for local development to emulate the Cloudflare runtime. This is already wired up in your package.json as the `dev` script:
+To run the application locally, you should use the `wrangler` CLI so you can leverage the Cloudflare runtime. This is already wired up in the package.json as the `dev` script:
 
 ```sh
 # start the remix dev server and wrangler
-npm run dev
+yarn run dev
 ```
 
 Open up [http://127.0.0.1:8788](http://127.0.0.1:8788) and you should be ready to go!
 
+## Building the Application
+
+In order to create a static build of your application run:
+
+```sh
+yarn run build
+```
+
+and the `/public` directory will have all your ouputs.
+
 ## Deployment
 
-Cloudflare Pages are currently only deployable through their Git provider integrations.
+Before deploying ensure you have a [Cloudflare account setup & email verified](https://dash.cloudflare.com/sign-up/pages).
 
-If you don't already have an account, then [create a Cloudflare account here](https://dash.cloudflare.com/sign-up/pages) and after verifying your email address with Cloudflare, go to your dashboard and follow the [Cloudflare Pages deployment guide](https://developers.cloudflare.com/pages/framework-guides/deploy-anything).
+To deploy the application you can use the wrangler CLI:
 
-Configure the "Build command" should be set to `npm run build`, and the "Build output directory" should be set to `public`.
+```sh
+yarn run pages:deploy
+```
+
+or you can use the Git provider integration on the Cloudflare dashboard and configure your build options.

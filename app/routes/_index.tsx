@@ -1,41 +1,41 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from '@remix-run/cloudflare';
+import { MainContainer } from '@chatscope/chat-ui-kit-react';
+import { Sidebar } from '~/atoms/Sidebar';
+import { Chat } from '~/organisms/Chat';
+import {
+  BasicStorage,
+  ChatProvider,
+  ChatServiceFactory,
+  IStorage,
+  UpdateState,
+} from '@chatscope/use-chat';
+import { WSChatService } from '~/services/WSChatService';
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: 'Chat' },
+    { name: 'description', content: 'WS-powered chat' },
   ];
 };
 
+const currentUserStorage = new BasicStorage({
+  groupIdGenerator: () => crypto.randomUUID(),
+  messageIdGenerator: () => crypto.randomUUID(),
+});
+
+// Create serviceFactory
+const serviceFactory: ChatServiceFactory<WSChatService> = (
+  storage: IStorage,
+  updateState: UpdateState
+) => new WSChatService(storage, updateState);
+
 export default function Index() {
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
-    </div>
+    <ChatProvider serviceFactory={serviceFactory} storage={currentUserStorage}>
+      <MainContainer responsive>
+        <Sidebar />
+        <Chat />
+      </MainContainer>
+    </ChatProvider>
   );
 }

@@ -1,5 +1,5 @@
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
-import './styles/theme.css';
+// import './styles/theme.css';
 import './styles/global.css';
 
 import type { LinksFunction } from '@remix-run/cloudflare';

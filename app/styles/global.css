@@ -1,0 +1,163 @@
+:root {
+  /* FULL THEME */
+  /* ref: https://goodpalette.io/26c0d1-ed4f3e-c3c9c9 */
+
+  /* Primary: Holiday Blue */
+  --primary-100: #f2fbff;
+  --primary-200: #c1edfe;
+  --primary-300: #8de2f9;
+  --primary-400: #58d4ec;
+  --primary-500: #26c0d1;
+  --primary-600: #0da0a6;
+  --primary-700: #037c7a;
+  --primary-800: #00514b;
+  --primary-900: #002621;
+
+  /* Secondary: Carmine Pink */
+  --secondary-100: #fff7f2;
+  --secondary-200: #ffd6c6;
+  --secondary-300: #fdaf99;
+  --secondary-400: #f7816b;
+  --secondary-500: #ed4f3e;
+  --secondary-600: #bb221b;
+  --secondary-700: #8a0c0c;
+  --secondary-800: #580606;
+  --secondary-900: #260202;
+
+  /* ref: https://goodpalette.io/ed4f3e-22f29f-c9bbb9 */
+  /* Accent: Hyperpop Green */
+  --accent-100: #f2fffd;
+  --accent-200: #befff0;
+  --accent-300: #8afddd;
+  --accent-400: #55fac2;
+  --accent-500: #22f29f;
+  --accent-600: #0bbf6d;
+  --accent-700: #028c45;
+  --accent-800: #005926;
+  --accent-900: #00260e;
+
+  /* Neutral */
+  --neutral-100: #fafcfc;
+  --neutral-200: #eceff0;
+  --neutral-300: #dee2e3;
+  --neutral-400: #d1d6d6;
+  --neutral-500: #c3c9c9;
+  --neutral-600: #99a1a0;
+  --neutral-700: #707877;
+  --neutral-800: #494f4e;
+  --neutral-900: #222625;
+
+  /* CORE THEME */
+  --primary-1-color: #26c0d1;
+  --primary-2-color: #ed4f3e;
+  --accent-color: rgb(243, 184, 97);
+  --primary-bg-color: #222625;
+  --secondary-bg-color: #99a1a0;
+}
+
+body {
+  margin: 0;
+}
+
+* {
+  border-color: var(--secondary-bg-color) !important;
+}
+
+.cs-main-container {
+  width: 100vw;
+  height: 100vh;
+  border: 0;
+}
+
+.cs-conversation-header {
+  background-color: var(--primary-bg-color);
+  height: 60px;
+}
+
+.cs-conversation-header__user-name {
+  color: rgb(220, 225, 255) !important;
+  background-color: transparent !important;
+}
+
+.cs-conversation-header__content {
+  color: var(--primary-1-color);
+}
+
+/* SIDEBAR */
+
+.cs-sidebar {
+  background-color: var(--primary-bg-color);
+  box-shadow: 3.1px 0px 7px darkslategray;
+  border: 0 !important;
+}
+
+/* .cs-conversation-list {
+} */
+
+/* END SIDEBAR */
+
+/* CHAT PANE */
+
+.cs-chat-container {
+  background-color: var(--secondary-bg-color);
+}
+
+.cs-message-list {
+  background-color: var(--primary-bg-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 16px;
+}
+
+.cs-message-list > div {
+  height: auto;
+}
+
+.cs-message-group__header {
+  color: var(--secondary-bg-color);
+}
+
+.sent-message > div > div {
+  background-color: var(--primary-1-color) !important;
+}
+
+.received-message > div > div {
+  background-color: var(--primary-2-color) !important;
+}
+
+.cs-message__text-content {
+  color: var(--primary-bg-color);
+}
+
+/* MESSAGE INPUT */
+
+/* input container */
+.chat-message-input-wrapper {
+  background-color: var(--secondary-bg-color);
+}
+
+.cs-message-input {
+  background-color: var(--primary-bg-color) !important;
+  color: var(--primary-bg-color) !important;
+  padding: 12px !important;
+  border: 0 !important;
+}
+
+.cs-message-input__content-editor-wrapper,
+.cs-message-input__content-editor-wrapper * {
+  /* margin: 30px; */
+  background-color: var(--secondary-bg-color) !important;
+}
+
+.cs-message-input__content-editor[data-placeholder]:empty:before {
+  color: #494f4e !important;
+}
+
+.svg-inline--fa {
+  color: var(--primary-1-color) !important;
+}
+
+/* END MESSAGE INPUT */
+
+/* END CHAT PANE */

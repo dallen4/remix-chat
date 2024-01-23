@@ -1,6 +1,7 @@
 
 export interface Env {
-    SESSIONS_DO: DurableObjectNamespace;
+    sessions: DurableObjectNamespace;
+    WORKER_URI: string;
 }
 
 export type User = {

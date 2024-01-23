@@ -1,0 +1,10 @@
+{
+  "include": ["../app", "./**.ts"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["esnext"],
+    "types": ["@cloudflare/workers-types"],
+    "noImplicitAny": true
+  }
+}

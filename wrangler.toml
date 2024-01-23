@@ -1,0 +1,16 @@
+
+name = "remix-chat-worker"
+main = "worker/index.ts"
+compatibility_date = "2023-12-06"
+
+account_id = "89537fd51da03accac5bc8339b711f77"
+
+durable_objects.bindings = [
+  { name = "sessions", class_name = "SessionConnection" }
+]
+
+[vars]
+WORKER_URI = "https://remix-chat-worker.nieky.workers.dev/"
+
+# [env.staging]
+# name = "remix-chat-worker-staging"

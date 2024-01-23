@@ -33,10 +33,16 @@ and the `/public` directory will have all your ouputs.
 
 Before deploying ensure you have a [Cloudflare account setup & email verified](https://dash.cloudflare.com/sign-up/pages).
 
-To deploy the application you can use the wrangler CLI:
+### Web Application
+
+To deploy the web application you can use the wrangler CLI:
 
 ```sh
 yarn run pages:deploy
 ```
 
 or you can use the Git provider integration on the Cloudflare dashboard and configure your build options.
+
+### Worker
+
+

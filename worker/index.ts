@@ -1,5 +1,6 @@
 import { parse } from 'cookie';
 import { Session } from './Session';
+import { SESSION_COOKIE, SESSION_HEADER } from './config';
 
 export interface Env {
   sessions: DurableObjectNamespace;
@@ -12,10 +13,10 @@ async function handleRequest(
   ctx: ExecutionContext
 ) {
   function getId() {
-    const cookie = parse(request.headers.get('Cookie') || '');
+    const cookies = parse(request.headers.get('Cookie') || '');
 
     const sessionId =
-      cookie['session_id'] || request.headers.get('x-session-id');
+      cookies[SESSION_COOKIE] || request.headers.get(SESSION_HEADER);
 
     return sessionId
       ? env.sessions.idFromString(sessionId)
@@ -23,7 +24,7 @@ async function handleRequest(
   }
 
   const sessionObjectId = getId();
-  console.log(sessionObjectId.toString());
+
   const session = env.sessions.get(sessionObjectId);
 
   try {

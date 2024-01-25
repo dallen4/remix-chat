@@ -1,3 +1,4 @@
+import { SESSION_COOKIE, SESSION_HEADER } from './config';
 import { Env } from './index';
 import { serialize } from 'cookie';
 
@@ -7,57 +8,61 @@ interface Message {
 }
 
 export class Session {
-  private _active: boolean;
-  private _connections: WebSocket[];
   private _connMap: Map<string, WebSocket>;
 
   private controller: DurableObjectState;
-  private store: DurableObjectStorage;
   private env: Env;
 
   constructor(controller: DurableObjectState, env: Env) {
-    this._active = false;
-    this._connections = [];
     this._connMap = new Map<string, WebSocket>();
 
     this.controller = controller;
-    this.store = this.controller.storage;
     this.env = env;
   }
 
-  get isActive() {
-    return this._active;
+  get active() {
+    return this._connMap.size > 0;
+  }
+
+  get members() {
+    return this._connMap
+  }
+
+  get headers() {
+    const headers = new Headers();
+
+    const sessionId = this.controller.id.toString();
+
+    headers.set(
+      'Set-Cookie',
+      serialize(SESSION_COOKIE, sessionId, { httpOnly: true, sameSite: 'lax' })
+    );
+    headers.set(SESSION_HEADER, sessionId);
+
+    return headers;
   }
 
   async fetch(
     request: Request<unknown, CfProperties<unknown>>
   ): Promise<Response> {
-    if (!this._active && request.headers.get('Upgrade') !== 'websocket')
-      return new Response('Expected websocket', { status: 400 });
+    if (request.method === 'GET') {
+      if (request.headers.get('Upgrade') === 'websocket') {
+        const client = await this.initWebsocket();
 
-    const headers = new Headers();
-
-    const sessionId = this.controller.id.toString();
-
-    headers.set('Set-Cookie', serialize('session_id', sessionId));
-    headers.set('x-session-id', sessionId);
-
-    if (request.method === 'PUT') {
+        return new Response(null, {
+          status: 101,
+          webSocket: client,
+          headers: this.headers,
+        });
+      } else return new Response('Expected websocket', { status: 400 });
+    } else if (request.method === 'PUT') {
       this.broadcast({
         timestamp: Date.now(),
         body: await request.text(),
       });
 
-      return new Response('message sent', { headers });
+      return new Response('message sent', { headers: this.headers });
     }
-
-    const client = await this.initWebsocket();
-
-    return new Response(null, {
-      status: 101,
-      webSocket: client,
-      headers,
-    });
   }
 
   private async initWebsocket() {
@@ -76,25 +81,27 @@ export class Session {
       console.log('Connection closed: ', event);
     });
 
-    this._connections.push(server);
+    const connectionId = crypto.randomUUID();
+
+    this._connMap.set(connectionId, server);
 
     return client;
   }
 
   private handleMessage({ type, data: rawData }: MessageEvent) {
-    const data = JSON.parse(rawData as string);
+    const data: Message = JSON.parse(rawData as string);
 
     console.log(data);
 
-    if (type === 'error') {
-    } else if (type === 'message') {
-    } else {
-    }
+    this.broadcast(data);
   }
 
   private broadcast(msg: Message) {
     const msgAsString = JSON.stringify(msg);
-
-    for (const conn of this._connections) conn.send(msgAsString);
+    console.log(this._connMap);
+    this._connMap.forEach((conn, id) => {
+      conn.send(msgAsString);
+      console.log(`Message sent to: ${id}...`);
+    });
   }
 }

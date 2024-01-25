@@ -24,20 +24,29 @@ export class WSChatService implements IChatService {
     onUserTyping: () => {},
   };
 
+  private connection?: WebSocket;
+
   constructor(storage: IStorage, update: UpdateState) {
     this.storage = storage;
     this.updateState = update;
   }
 
   async initSession() {
-    const wsConn = await websocket('wss://remix-chat-worker.nieky.workers.dev');
-    console.log(wsConn);
+    this.connection = await websocket(
+      'wss://remix-chat-worker.nieky.workers.dev'
+    );
+    console.log(this.connection);
   }
 
   sendMessage({ message, conversationId }: SendMessageServiceParams) {
-    // TODO send message
+    if (!this.connection) throw new Error('No active connection present!');
 
-    return message.content;
+    const newMessage = JSON.stringify({
+      timestamp: message.createdTime.getTime(),
+      body: message.content,
+    });
+
+    this.connection.send(newMessage);
   }
 
   sendTyping({

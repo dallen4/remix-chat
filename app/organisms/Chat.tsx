@@ -8,7 +8,6 @@ import { MessageFeed } from './MessageFeed';
 import { BasicStorage, Conversation, useChat } from '@chatscope/use-chat';
 import { useEffect, useState } from 'react';
 import { WSChatService } from '~/services/WSChatService';
-// import { WSChatService } from '~/services/WSChatService';
 
 export const Chat = () => {
   const { addConversation, setActiveConversation } = useChat();
@@ -38,7 +37,7 @@ export const Chat = () => {
   return (
     <ChatContainer>
       <ConversationHeader>
-        <ConversationHeader.Content userName={'test user name'} />
+        <ConversationHeader.Content userName={'test user name'} onClick={test} />
       </ConversationHeader>
       <MessageList loadingMorePosition={'bottom'}>
         <MessageList.Content>

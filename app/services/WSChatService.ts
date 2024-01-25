@@ -8,41 +8,8 @@ import type {
   SendTypingServiceParams,
   UpdateState,
 } from '@chatscope/use-chat';
+import { websocket } from '~/lib/websocket';
 import { EventHandlers } from '~/types/services';
-
-async function websocket(url: string) {
-  const ws = new WebSocket(url);
-  console.log(ws);
-  if (!ws) {
-    throw new Error("server didn't accept ws");
-  }
-
-  ws.addEventListener('error', (err) => {
-    console.error(err);
-  });
-
-  ws.addEventListener('open', () => {
-    console.log('Opened websocket');
-    Promise.resolve(ws);
-  });
-
-  ws.addEventListener('message', ({ data }) => {
-    const { count, tz, error } = JSON.parse(data);
-    console.log(data);
-    if (error) {
-      console.error(error);
-    } else {
-      console.error();
-    }
-  });
-
-  ws.addEventListener('close', () => {
-    console.log('Closed websocket');
-    Promise.reject('Failed to open ws');
-  });
-
-  // return ws;
-}
 
 export class WSChatService implements IChatService {
   storage?: IStorage;
@@ -63,7 +30,7 @@ export class WSChatService implements IChatService {
   }
 
   async initSession() {
-    const wsConn = await websocket('wss://localhost:8788/api/session');
+    const wsConn = await websocket('wss://remix-chat-worker.nieky.workers.dev');
     console.log(wsConn);
   }
 

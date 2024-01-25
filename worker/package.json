@@ -1,0 +1,20 @@
+{
+  "name": "worker",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20231218.0",
+    "typescript": "^5.0.4",
+    "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "cookie": "^0.6.0"
+  }
+}
